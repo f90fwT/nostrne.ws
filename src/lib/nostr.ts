@@ -1,6 +1,6 @@
 import NDK, { NDKEvent, NDKNip07Signer, type NDKConstructorParams, type NDKFilter } from "@nostr-dev-kit/ndk";
 
-const relays = [
+let relays = [
     "wss://relay.nostr.band",
     "wss://relay.f7z.io",
     "wss://nostr.wine",
@@ -16,7 +16,7 @@ const relays = [
     "wss://relay.snort.social",
     "wss://eden.nostr.land",
     "wss://nostr.mutinywallet.com",
-]
+];
 
 const constructor: NDKConstructorParams = {
     explicitRelayUrls: relays,
@@ -114,6 +114,23 @@ export async function upvote (id: string) {
         ndkEvent.content = "+";
         ndkEvent.tags = [["t", "nostrnews"], ["e", event.id], ["p", event.pubkey]];
         await ndkEvent.publish();
+    } catch (err) {
+        return false;
+    }
+    return true;
+}
+
+export async function zap (id: string) {
+    try {
+        const event = await ndk.fetchEvent(id);
+        if (event === null) {
+            return false;
+        }
+        if (ndk.signer === undefined) {
+            ndk.signer = new NDKNip07Signer();
+        }
+        const amount = prompt("How much do you want to zap? (in sats)");
+        await event.zap(Number(amount)/*, undefined, [["t", "nostrnews"]]*/);
     } catch (err) {
         return false;
     }

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { dateFormatter, formatPostContent, getDomain } from "../lib/utils";
-  import { getCommentCount, getProfile, ndk, upvote } from "../lib/nostr";
+  import { dateFormatter, formatPostContent, getDomain, formatNumber } from "../lib/utils";
+  import { getCommentCount, getProfile, ndk, upvote, zap } from "../lib/nostr";
   import "../styles/hackernews.css";
   import { cache } from "$lib/cache";
 
@@ -40,22 +40,24 @@
   }
 
   onMount(async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    let sortParam: string | null = urlParams.get("sort");
+    if (sortParam !== null) {
+      if (sortParam === "zaps") {
+        sort = "zaps";
+      }
+    }
+
     await load();
     loaded = true;
   });
 </script>
-
-<svelte:head>
-  <title>Nostr News</title>
-  <meta name="description" content="A description" />
-</svelte:head>
 
 <div />
 <tr>
   <td>
     <table border="0" cellpadding="0" cellspacing="0">
       <tbody>
-        <!-- something like this -->
         {#each data as item, i}
           <tr id={`_${item.ID}`} class="athing">
             <td align="right" valign="top" class="title"
@@ -105,17 +107,34 @@
             <td colspan="2" />
             <td class="subtext"
               ><span class="subline"
-                ><span class="score">{item.upvoteCount} points</span>
+                >
+                {#if sort === "upvotes"}
+                <span class="score">{item.upvoteCount} points</span>
+                {:else if sort === "zaps"}
+                <span class="score">{formatNumber(item.zapSats)} sats</span>
+                {/if}
                 by
                 <a href={`nostr:${item.PubKey}`} class="hnuser">
                   {#await getProfile(item.PubKey)}loading{:then result}{result
                       ?.profile?.name}{/await}
                 </a>
-                <!-- TODO Set profile name here -->
 
                 <span>{dateFormatter(item.CreatedAt)}</span> <span /> |
-                <a href="#">hide</a>
+                <!--<a
+                on:click={async () => {
+                  let r = await zap(item.ID);
+                  if (r === false) {
+                    alert(
+                      "Failed to zap, note that we currently only support nip07"
+                    );
+                  } else if (r === true) {
+                    alert("Zapped successfully!");
+                  }
+                }}
+                href="#">zap</a>
                 |
+                <a href="#">hide</a>
+                | -->
                 <a
                   href="#"
                   on:click={() =>
@@ -128,7 +147,6 @@
                   {#await getCommentCount(item.ID, item.PubKey)}loading{:then result}{result}
                     comments{/await}
                 </a>
-                <!-- TODO Set comments number -->
               </span></td
             >
           </tr>
@@ -136,7 +154,6 @@
             <td />
           </tr>
         {/each}
-        <!---->
 
         <tr class="spacer" style="height:5px">
           <td />

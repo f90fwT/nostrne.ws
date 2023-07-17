@@ -8,23 +8,16 @@
   let loaded = false;
 
   onMount(async () => {
-    // temp
-    if (localStorage.getItem("accept") === "1") {
-    } else {
-      const accept = confirm(
-        "This project has not been released, this is only for development purposes."
-      );
-      if (accept == false) {
-        throw new Error("User did not accept");
-      } else {
-        localStorage.setItem("accept", "1");
-      }
-    }
-
     await ndk.connect();
     loaded = true;
   });
 </script>
+
+<svelte:head>
+  <title>Nostr News</title>
+  <meta name="description" content="A nostr-based hackernews alternative." />
+  <meta name="keywords" content="nostr,hackernews" />
+</svelte:head>
 
 <center>
   <table
@@ -48,21 +41,25 @@
             <tbody>
               <tr>
                 <td style="width:18px;padding-right:4px">
-                  <a href="/" /><img
-                    src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9InJnYigyNTUsIDEwMiwgMCkiPjwvcmVjdD4KICA8cGF0aCBkPSJNIDUwIDc3IEwgNTAgNTAgIiBmaWxsPSJub25lIiBzdHJva2U9InJnYigyNTUsIDI1NSwgMjU1KSIgc3Ryb2tlLXdpZHRoPSI4Ljc4NjYyMTUwNzE5NzI5IiBzdHJva2UtbGluZWNhcD0iYnV0dCI+CiAgPC9wYXRoPgogIDxwYXRoIGQ9Ik0gOTQuOTMwNTY3MzE1ODM0MDQgMzUuNjIyNzQ1NTEzOTE2MDE2IEwgNzEuMjQ1NDgzMzk4NDM3NSA3MS4yNDU0ODMzOTg0Mzc1ICIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2IoMjU1LCAyNTUsIDI1NSkiIHN0cm9rZS13aWR0aD0iOC43ODY2MjE1MDcxOTcyOSIgc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIDEgLTIxLjI0NTUgLTIxLjI0NTUpIj4KICA8L3BhdGg+CiAgPHBhdGggZD0iTSAtNzguOTMwNTY3MzE1ODM0MDQgMzYuMTcwMjgwNDU2NTQyOTcgTCAtNTUuNjcxMTg4MzU0NDkyMTkgNzEuNzkzMDA2ODk2OTcyNjYgIiBmaWxsPSJub25lIiBzdHJva2U9InJnYigyNTUsIDI1NSwgMjU1KSIgc3Ryb2tlLXdpZHRoPSI4Ljc4NjYyMTUwNzE5NzI5IiBzdHJva2UtbGluZWNhcD0iYnV0dCIgdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgMSAxMDUuMzk2IC0yMS43MjEzKSI+CiAgPC9wYXRoPgogIDxyZWN0IHRyYW5zZm9ybT0iIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjIzLjc0MjU5MTAyNDU1NTQ2MyIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2U9Im5vbmUiIGZpbGw9IiNGRjY2MDAiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsLW9wYWNpdHk9IjEiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiA+CiAgPC9yZWN0Pgo8L3N2Zz4K"
-                    width="18"
-                    height="18"
+                  <a data-sveltekit-reload href="/"><img
+                    src="/logo.svg"
+                    width="28"
+                    height="28"
                     style="border:1px white solid;display:block"
-                    alt="svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9InJnYigyNTUsIDEwMiwgMCkiPjwvcmVjdD4KICA8cGF0aCBkPSJNIDUwIDc3IEwgNTAgNTAgIiBmaWxsPSJub25lIiBzdHJva2U9InJnYigyNTUsIDI1NSwgMjU1KSIgc3Ryb2tlLXdpZHRoPSI4Ljc4NjYyMTUwNzE5NzI5IiBzdHJva2UtbGluZWNhcD0iYnV0dCI+CiAgPC9wYXRoPgogIDxwYXRoIGQ9Ik0gOTQuOTMwNTY3MzE1ODM0MDQgMzUuNjIyNzQ1NTEzOTE2MDE2IEwgNzEuMjQ1NDgzMzk4NDM3NSA3MS4yNDU0ODMzOTg0Mzc1ICIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2IoMjU1LCAyNTUsIDI1NSkiIHN0cm9rZS13aWR0aD0iOC43ODY2MjE1MDcxOTcyOSIgc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIDEgLTIxLjI0NTUgLTIxLjI0NTUpIj4KICA8L3BhdGg+CiAgPHBhdGggZD0iTSAtNzguOTMwNTY3MzE1ODM0MDQgMzYuMTcwMjgwNDU2NTQyOTcgTCAtNTUuNjcxMTg4MzU0NDkyMTkgNzEuNzkzMDA2ODk2OTcyNjYgIiBmaWxsPSJub25lIiBzdHJva2U9InJnYigyNTUsIDI1NSwgMjU1KSIgc3Ryb2tlLXdpZHRoPSI4Ljc4NjYyMTUwNzE5NzI5IiBzdHJva2UtbGluZWNhcD0iYnV0dCIgdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgMSAxMDUuMzk2IC0yMS43MjEzKSI+CiAgPC9wYXRoPgogIDxyZWN0IHRyYW5zZm9ybT0iIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjIzLjc0MjU5MTAyNDU1NTQ2MyIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2U9Im5vbmUiIGZpbGw9IiNGRjY2MDAiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsLW9wYWNpdHk9IjEiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiA+CiAgPC9yZWN0Pgo8L3N2Zz4K"
+                    alt="logo"
                   />
+                  </a>
                 </td>
                 <td style="line-height:12pt;height:10px">
                   <span class="pagetop">
                     <b class="hnname">
-                      <a data-sveltekit-reload href="/">Hacker News</a>
+                      <a data-sveltekit-reload href="/">Nostr News</a>
                     </b>
 
-                    <!--<a href="/">new</a>
+                    <a data-sveltekit-reload href="/?sort=zaps">zaps</a>
+                    |
+                    <a data-sveltekit-reload href="/new">submit</a>
+                    <!--
                     |
                     <a href="/">past</a>
                     |
@@ -73,8 +70,6 @@
                     <a href="/">show</a>
                     |
                     <a href="/">jobs</a>-->
-                    |
-                    <a data-sveltekit-reload href="/new">submit</a>
                   </span>
                 </td>
                 <td style="text-align:right;padding-right:4px">
@@ -83,7 +78,7 @@
                     <a href="#" on:click={loginHandler}>login</a>
                     <a href="#" >logout</a>
                     -->
-                    <a data-sveltekit-reload href="/settings">settings</a>
+                    <!--<a data-sveltekit-reload href="/settings">settings</a>-->
                   </span>
                 </td>
               </tr>
@@ -123,14 +118,17 @@
             >
             <br />
             <div />
-            <span style="color:black;"
+            <span style="color:black;font-size:10px;"
               ><a href="https://nostrne.ws">nostrne.ws</a> by
               <a href="https://f9ofwt.click" class="text-black hover:text-black"
                 >f9ofwt</a
               ></span
             >
+            <br>
+            <span style="color:black;font-size:10px;">Logo based on <a href="https://github.com/mbarulli/nostr-logo">a design from mbarulli</a></span>
             <div />
             <br />
+            <!--
             <form action="//hn.algolia.com" />
             <label for="q">Search</label>:<input
               type="text"
@@ -142,7 +140,7 @@
               autocomplete="false"
               value=""
               aria-label="Search"
-            />
+            />-->
           </center>
         </td>
       </tr>

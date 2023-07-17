@@ -1,10 +1,14 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { getComments, getProfile, ndk, addComment, upvote } from "$lib/nostr";
-  import { dateFormatter, formatPostContent, removeDuplicateComments } from "$lib/utils";
+  import {
+    dateFormatter,
+    formatPostContent,
+    removeDuplicateComments,
+  } from "$lib/utils";
   import type { NDKEvent } from "@nostr-dev-kit/ndk";
   import Comment from "../../components/Comment.svelte";
-  import SvelteMarkdown from 'svelte-markdown'
+  import SvelteMarkdown from "svelte-markdown";
   import "../../styles/hackernews.css";
   import { onMount } from "svelte";
 
@@ -89,7 +93,8 @@
             ><span class="subline">
               by
               <a href={`nostr:${event?.pubkey}`} class="hnuser"
-                >{#await getProfile(event.pubkey)}loading{:then result}{result.profile.name}{/await}</a
+                >{#await getProfile(event.pubkey)}loading{:then result}{result
+                    .profile.name}{/await}</a
               >
               <span class="age" title="2023-07-14T12:19:41"
                 ><a href="">{dateFormatter(event?.created_at)}</a></span
@@ -98,15 +103,19 @@
               | <a href="">{comments.size} comments</a>
             </span>
             {#if formatPostContent(event.content).text}
-            <div style="margin-top:14px;color:black;" class="comment">
-              <div>
-                <SvelteMarkdown source={formatPostContent(event.content).text?.replace(/\n/g, "\n\n")} />
+              <div style="margin-top:14px;color:black;" class="comment">
+                <div>
+                  <SvelteMarkdown
+                    source={formatPostContent(event.content).text?.replace(
+                      /\n/g,
+                      "\n\n"
+                    )}
+                  />
+                </div>
               </div>
-            </div>
             {/if}
           </td>
-          </tr
-        >
+        </tr>
         <tr style="height:10px" /><tr
           ><td colspan="2" /><td
             ><form on:submit|preventDefault={addCommentHandler}>
