@@ -50,9 +50,6 @@
   <meta name="description" content="A description" />
 </svelte:head>
 
-{#if loaded === false}
-  <span>Loading...</span>
-{/if}
 <div />
 <tr>
   <td>
