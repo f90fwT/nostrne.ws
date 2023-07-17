@@ -2,6 +2,7 @@
 
 Todo for the [nostrne.ws](https://nostrne.ws) project.
 
- - [ ] Rebuild or remove server side caching service
- - [ ] Add better algorithm 
- - [ ] Sort comments in UI by upvotes
+ - [x] Rebuild or remove server side caching service
+ - [x] Add better algorithm 
+ - [x] Sort comments in UI by upvotes
+ - [ ] Make setting to change sorting to upvotes or zaps avaliable in UI
