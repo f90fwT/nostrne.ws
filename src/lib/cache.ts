@@ -1,7 +1,7 @@
 const cacheUrl = "https://cache.nostrne.ws";
 
-async function get (page: number) {
-    const response = await fetch(`${cacheUrl}/?sort=upvotes&page=${page}`);
+async function get (page: number, sort: string) {
+    const response = await fetch(`${cacheUrl}/?sort=${sort}&page=${page}`);
     const responseJson = await response.json();
     if (responseJson) {
         if (responseJson.message) {

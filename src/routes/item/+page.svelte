@@ -6,13 +6,6 @@
   import Comment from "../../components/Comment.svelte";
   import SvelteMarkdown from 'svelte-markdown'
   import "../../styles/hackernews.css";
-  import {
-    validateEvent,
-    verifySignature,
-    nip19,
-    getEventHash,
-    getBlankEvent,
-  } from "nostr-tools";
   import { onMount } from "svelte";
 
   let commentContent = "";
@@ -34,7 +27,7 @@
   };
 
   const upvoteHandler = async () => {
-    const result = await upvote(event);
+    const result = await upvote(event.id);
     if (result == false) {
       alert("Failed to react, note that we currently only support nip07");
     } else if (result == true) {
@@ -96,8 +89,7 @@
             ><span class="subline">
               by
               <a href={`nostr:${event?.pubkey}`} class="hnuser"
-                >{#await getProfile(event.pubkey)}loading{:then result}{result
-                    .profile.name}{/await}</a
+                >{#await getProfile(event.pubkey)}loading{:then result}{result.profile.name}{/await}</a
               >
               <span class="age" title="2023-07-14T12:19:41"
                 ><a href="">{dateFormatter(event?.created_at)}</a></span
@@ -137,7 +129,7 @@
     <table border="0" class="comment-tree">
       <tbody>
         {#each comments as comment}
-          <Comment above={event} event={comment} ind={0} />
+          <Comment classList={``} above={event} event={comment} ind={0} />
         {/each}
       </tbody>
     </table>

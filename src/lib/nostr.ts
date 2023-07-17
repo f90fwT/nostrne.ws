@@ -36,7 +36,9 @@ export async function getComments (id: string, pubkey: string) {
 }
 
 export async function getReactions (event: NDKEvent) {
-    
+    const filter: NDKFilter = { kinds: [7], ["#e"]: [event.id,], };
+    const data: Set<NDKEvent> = await ndk.fetchEvents(filter);
+    return data;
 }
 
 type Post = {
@@ -91,15 +93,19 @@ export async function addComment (event: NDKEvent, comment: string) {
     return true;
 }
 
-export async function upvote (event: NDKEvent) {
+export async function upvote (id: string) {
     try {
+        const event = await ndk.fetchEvent(id);
+        if (event === null) {
+            return false;
+        }
         if (ndk.signer === undefined) {
             ndk.signer = new NDKNip07Signer();
         }
         const ndkEvent = new NDKEvent(ndk);
         ndkEvent.kind = 7;
         ndkEvent.content = "+";
-        ndkEvent.tags = [["e", event.id], ["p", event.pubkey]];
+        ndkEvent.tags = [["t", "nostrnews"], ["e", event.id], ["p", event.pubkey]];
         await ndkEvent.publish();
     } catch (err) {
         return false;

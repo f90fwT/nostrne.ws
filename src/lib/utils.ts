@@ -54,7 +54,9 @@ export function formatPostContent(content: string) {
       
         const title = titleMatch ? titleMatch[1] : '';
         const url = urlMatch ? urlMatch[1] : '';
-        const text = textLines.join('\n');
+        let text = textLines.join('\n');
+
+        if (text.startsWith("text: ")) text = text.substring(6);
       
         return {
           title: title || content,
@@ -64,4 +66,10 @@ export function formatPostContent(content: string) {
     } catch (err) {
         return { title: content, url: undefined, text: undefined };
     }
+}
+
+export function getDomain(url: string) {
+    let formattedUrl = url.replace(/^(https?:\/\/)/, '');
+    formattedUrl = formattedUrl.split('/')[0];
+    return formattedUrl;
 }

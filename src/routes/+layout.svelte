@@ -2,12 +2,16 @@
   import { onMount } from "svelte";
   import "../app.postcss";
   import '../styles/hackernews.css';
-  import { ndk, login } from "$lib/nostr";
+  import { ndk } from "$lib/nostr";
 
   export const prerender = true;
   let loaded = false;
 
   onMount(async () => {
+    // const accept = confirm("This project has not been released, this is only for development purposes.");
+    // if (accept == false) {
+    //   throw new Error("User did not accept");
+    // }
     await ndk.connect();
     loaded = true;
   })
@@ -70,6 +74,7 @@
                     <a href="#" on:click={loginHandler}>login</a>
                     <a href="#" >logout</a>
                     -->
+                    <a data-sveltekit-reload href="/settings">settings</a>
                   </span>
                 </td>
               </tr>
@@ -82,7 +87,7 @@
       </tr>
       {#if loaded === false}
       <noscript>Please enable javascript to view this page...</noscript>
-      <p style="color:black;">Loading...</p>
+      <p style="color:black;display:none;">Loading...</p>
       {:else if loaded === true}
       <slot />
       {/if}

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { dateFormatter, formatPostContent } from "../lib/utils";
-  import { getCommentCount, getProfile, ndk } from "../lib/nostr";
+  import { dateFormatter, formatPostContent, getDomain } from "../lib/utils";
+  import { getCommentCount, getProfile, ndk, upvote } from "../lib/nostr";
   import "../styles/hackernews.css";
   import { cache } from "$lib/cache";
 
@@ -10,9 +10,10 @@
   let data: any[] = [];
   let page = 1;
   let loaded: boolean = false;
+  let sort: "upvotes" | "zaps" = "upvotes";
 
   async function load() {
-    const newData = await cache.get(page);
+    const newData = await cache.get(page, sort);
     if (newData.error) {
       return alert(newData.error);
     } else {
@@ -24,7 +25,7 @@
     loaded = false;
     try {
       page++;
-      const newData = await cache.get(page);
+      const newData = await cache.get(page, sort);
       if (newData.error) {
         return alert(newData.error);
       } else {
@@ -65,7 +66,20 @@
             >
             <td valign="top" class="votelinks">
               <center>
-                <a id="up" href={`/item?id=${item.ID}`}>
+                <a
+                  id="up"
+                  href="#"
+                  on:click={async () => {
+                    let r = await upvote(item.ID);
+                    if (r === false) {
+                      alert(
+                        "Failed to react, note that we currently only support nip07"
+                      );
+                    } else if (r === true) {
+                      alert("Posted reaction successfully!");
+                    }
+                  }}
+                >
                   <div class="votearrow" title="upvote" /></a
                 >
               </center>
@@ -78,13 +92,15 @@
                     : formatPostContent(item.Content).url}
                   rel="noreferrer">{formatPostContent(item.Content).title}</a
                 >
-                <!--<span class="sitebit comhead"
-                        >(<a
-                          href="https://news.ycombinator.com/from?site=devpod.sh"
-                          ><span class="sitestr">devpod.sh</span></a
-                        >)</span
-                      ></span
-                    >--></span
+                {#if formatPostContent(item.Content).url !== undefined}
+                  <span class="sitebit comhead"
+                    >(<a
+                      ><span class="sitestr"
+                        >{getDomain(formatPostContent(item.Content).url)}</span
+                      ></a
+                    >)
+                  </span>
+                {/if}</span
               ></td
             >
           </tr>
@@ -92,9 +108,7 @@
             <td colspan="2" />
             <td class="subtext"
               ><span class="subline"
-                ><span class="score" id="score_36407477"
-                  >{item.upvoteCount} points</span
-                >
+                ><span class="score">{item.upvoteCount} points</span>
                 by
                 <a href={`nostr:${item.PubKey}`} class="hnuser">
                   {#await getProfile(item.PubKey)}loading{:then result}{result
