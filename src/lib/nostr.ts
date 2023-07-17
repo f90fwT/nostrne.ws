@@ -1,14 +1,21 @@
 import NDK, { NDKEvent, NDKNip07Signer, type NDKConstructorParams, type NDKFilter } from "@nostr-dev-kit/ndk";
 
 const relays = [
-    "wss://relay.damus.io",
-    "wss://nos.lol",
-    "wss://relay.snort.social",
-    "wss://nostr.wine",
     "wss://relay.nostr.band",
+    "wss://relay.f7z.io",
+    "wss://nostr.wine",
+    "wss://relay.damus.io",
+    "wss://relayable.org",
+    "wss://nos.lol",
     "wss://nostr.bitcoiner.social",
+    "wss://nostr-pub.wellorder.net",
     "wss://eden.nostr.land",
-    "wss://nostr.rocks",
+    "wss://relay.primal.net",
+    "wss://lightningrelay.com",
+    "wss://nostr.orangepill.dev",
+    "wss://relay.snort.social",
+    "wss://eden.nostr.land",
+    "wss://nostr.mutinywallet.com",
 ]
 
 const constructor: NDKConstructorParams = {
