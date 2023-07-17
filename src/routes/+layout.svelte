@@ -1,20 +1,29 @@
 <script>
   import { onMount } from "svelte";
   import "../app.postcss";
-  import '../styles/hackernews.css';
+  import "../styles/hackernews.css";
   import { ndk } from "$lib/nostr";
 
   export const prerender = true;
   let loaded = false;
 
   onMount(async () => {
-    // const accept = confirm("This project has not been released, this is only for development purposes.");
-    // if (accept == false) {
-    //   throw new Error("User did not accept");
-    // }
+    // temp
+    if (localStorage.get("accept") === "1") {
+    } else {
+      const accept = confirm(
+        "This project has not been released, this is only for development purposes."
+      );
+      if (accept == false) {
+        throw new Error("User did not accept");
+      } else {
+        localStorage.setItem("accept", "1");
+      }
+    }
+    
     await ndk.connect();
     loaded = true;
-  })
+  });
 </script>
 
 <center>
@@ -86,10 +95,10 @@
         <td />
       </tr>
       {#if loaded === false}
-      <noscript>Please enable javascript to view this page...</noscript>
-      <p style="color:black;display:none;">Loading...</p>
+        <noscript>Please enable javascript to view this page...</noscript>
+        <p style="color:black;display:none;">Loading...</p>
       {:else if loaded === true}
-      <slot />
+        <slot />
       {/if}
       <tr>
         <td>
@@ -113,9 +122,14 @@
               <a href="https://f9ofwt.click/github">Github</a></span
             >
             <br />
-            <div></div>
-            <span style="color:black;"><a href="https://nostrne.ws">nostrne.ws</a> by <a href="https://f9ofwt.click" class="text-black hover:text-black">f9ofwt</a></span>
-            <div></div>
+            <div />
+            <span style="color:black;"
+              ><a href="https://nostrne.ws">nostrne.ws</a> by
+              <a href="https://f9ofwt.click" class="text-black hover:text-black"
+                >f9ofwt</a
+              ></span
+            >
+            <div />
             <br />
             <form action="//hn.algolia.com" />
             <label for="q">Search</label>:<input
@@ -135,4 +149,3 @@
     </tbody>
   </table>
 </center>
-
