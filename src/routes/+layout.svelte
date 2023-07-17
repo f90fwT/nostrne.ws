@@ -9,7 +9,7 @@
 
   onMount(async () => {
     // temp
-    if (localStorage.get("accept") === "1") {
+    if (localStorage.getItem("accept") === "1") {
     } else {
       const accept = confirm(
         "This project has not been released, this is only for development purposes."
@@ -20,7 +20,7 @@
         localStorage.setItem("accept", "1");
       }
     }
-    
+
     await ndk.connect();
     loaded = true;
   });
