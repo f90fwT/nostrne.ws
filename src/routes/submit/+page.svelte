@@ -31,7 +31,7 @@
         "Something went wrong while submitting post, note that we only support nip07 at this moment"
       );
     } else if (result === true) {
-      alert("Success!");
+      alert("Success! It can take some time for your post to show up on the front page!");
     }
   };
 </script>

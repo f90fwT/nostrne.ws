@@ -41,7 +41,7 @@
             <tbody>
               <tr>
                 <td style="width:18px;padding-right:4px">
-                  <a data-sveltekit-reload href="/"><img
+                  <a href="/"><img
                     src="/logo.svg"
                     width="28"
                     height="28"
@@ -53,15 +53,15 @@
                 <td style="line-height:12pt;height:10px">
                   <span class="pagetop">
                     <b class="hnname">
-                      <a data-sveltekit-reload href="/">Nostr News</a>
+                      <a href="/">Nostr News</a>
                     </b>
 
-                    <a data-sveltekit-reload href="/?sort=zaps">zaps</a>
+                    <a href="/zaps">zaps</a>
                     |
-                    <a data-sveltekit-reload href="/new">submit</a>
+                    <a href="/newest">newest</a>
+                    |
+                    <a href="/submit">submit</a>
                     <!--
-                    |
-                    <a href="/">past</a>
                     |
                     <a href="/">comments</a>
                     |
@@ -90,8 +90,10 @@
         <td />
       </tr>
       {#if loaded === false}
+      <td>
         <noscript>Please enable javascript to view this page...</noscript>
-        <p style="color:black;display:none;">Loading...</p>
+        <p>Loading...</p>
+      </td>
       {:else if loaded === true}
         <slot />
       {/if}
