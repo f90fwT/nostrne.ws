@@ -8,7 +8,7 @@
   let loaded = false;
 
   onMount(async () => {
-    await ndk.connect();
+    ndk.connect();
     loaded = true;
   });
 </script>
