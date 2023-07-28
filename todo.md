@@ -8,3 +8,4 @@ Todo for the [nostrne.ws](https://nostrne.ws) project.
  - [x] Make setting to change sorting to upvotes in UI
  - [ ] Add relay selection option for UI
  - [ ] Comment sort algorithm
+ - [ ] rebuild caching service
