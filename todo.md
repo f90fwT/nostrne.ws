@@ -7,4 +7,4 @@ Todo for the [nostrne.ws](https://nostrne.ws) project.
  - [x] Sort comments in UI by upvotes
  - [x] Make setting to change sorting to upvotes in UI
  - [ ] Add relay selection option for UI
- - [ ] Add preloading of cache into the UI. So users can view the frontpage without needing javascript (?)
+ - [ ] Comment sort algorithm
