@@ -9,3 +9,4 @@ Todo for the [nostrne.ws](https://nostrne.ws) project.
  - [ ] Add relay selection option for UI
  - [ ] Comment sort algorithm
  - [ ] rebuild caching service
+ - [ ] Comment/Post hide system and/or antispam
